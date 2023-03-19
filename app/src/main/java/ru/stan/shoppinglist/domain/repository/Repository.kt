@@ -1,5 +1,6 @@
 package ru.stan.shoppinglist.domain.repository
 
+import androidx.lifecycle.LiveData
 import ru.stan.shoppinglist.domain.model.ShopItem
 
 interface Repository {
@@ -7,5 +8,5 @@ interface Repository {
     fun deleteShopItem(shopItem: ShopItem)
     fun editShopItem(shopItem: ShopItem)
     fun getShopItem(shopItemId: Int) : ShopItem
-    fun getShopList(): List<ShopItem>
+    fun getShopList(): LiveData<List<ShopItem>>
 }
