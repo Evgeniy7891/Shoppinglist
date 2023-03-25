@@ -1,13 +1,15 @@
 package ru.stan.shoppinglist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
 import ru.stan.shoppinglist.R
-import ru.stan.shoppinglist.domain.model.ShopItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,8 +24,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.shopList.observe(this) {
             shopLiatAdapter.submitList(it)
         }
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
     }
-
     private fun setuprecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         shopLiatAdapter = ShopListAdapter()
@@ -63,7 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopLiatAdapter.onShopItemClickListener = {
-
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
