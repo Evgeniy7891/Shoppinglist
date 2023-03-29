@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import ru.stan.shoppinglist.R
 import ru.stan.shoppinglist.domain.model.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOW
     private var shopItemId = ShopItem.UNDEFINED_ID
@@ -74,5 +74,9 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
             return intent
         }
+    }
+
+    override fun onEditingFinished() {
+       finish()
     }
 }

@@ -19,6 +19,7 @@ import ru.stan.shoppinglist.domain.model.ShopItem
 class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var tiName: TextInputLayout
     private lateinit var tiCount: TextInputLayout
@@ -28,6 +29,15 @@ class ShopItemFragment : Fragment() {
 
     private var screenMode = MODE_UNKNOW
     private var shopItemId = ShopItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement listener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,10 +158,13 @@ class ShopItemFragment : Fragment() {
             tiName.error = message
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
         }
     }
 
+    interface OnEditingFinishedListener {
+        fun onEditingFinished()
+    }
 
 
     companion object {
